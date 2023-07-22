@@ -1,13 +1,16 @@
 import { TouchableOpacity, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { colors, fonts } from '../../utils'
-import { IcLogin } from '../../assets'
+import { ILRegister, IcBack, IcLogin } from '../../assets'
 import { Gap, Input, Link } from '../../components/atoms'
+import { ScrollView } from 'react-native-gesture-handler'
+import { Image } from 'react-native-svg'
 
-const Login = ({ navigation }) => {
+const Register = ({ navigation }) => {
 
   return (
     <SafeAreaView style = {styles.container}>
+      <ScrollView scrollIndicatorInsets={false} showsVerticalScrollIndicator= {false} >      
       <View style = {styles.ContentMain}>
         <View style = {styles.wrapText}>
           <Text style = {styles.textHeader}>
@@ -18,31 +21,31 @@ const Login = ({ navigation }) => {
           </Text>
         </View>
         <View style = {styles.wrapLogo}>
-          <IcLogin />
+          <ILRegister />
         </View>
         <Gap height={24} />
         <KeyboardAvoidingView>
-           <Input label="Email Address" placeholder="Email address"/>
-           <Gap height= {24} /> 
-          <Input label="password" placeholder= "Input Password"/> 
+           <Input label="Username" placeholder="Input Your Username" autoCapitalize="none" />
+           <Gap height= {10} /> 
+          <Input label="Email Address" placeholder= "Input Your Email Address"/> 
           <Gap height={10} />
-          <Link title="Forgot My Password" align="right" />
+          <Input label="Password" placeholder= "Input Your Password"/>
         </KeyboardAvoidingView>
         <Gap height={24} />
       <View style = {styles.wrapBtn}>
-        <TouchableOpacity style = {styles.btn} activeOpacity={0.6}>
+        <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={() => navigation.navigate("Login")}>
             <Text style = {styles.textBtn}>
-                Login
+               Continue
             </Text>
         </TouchableOpacity>
-        <Link title="Create New Account" size={16} align="center" onPress={() => navigation.navigate("")}/>
       </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
 
-export default Login
+export default Register
 
 const styles = StyleSheet.create({
   container: {
@@ -81,9 +84,9 @@ const styles = StyleSheet.create({
   },
 
   btn: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.foutery,
     borderRadius: 8,
-    width: 280,
+    width: 350,
     padding: 12,
     justifyContent: "center",
     alignItems: "center",
@@ -100,6 +103,5 @@ wrapBtn: {
   justifyContent: 'space-between',
   alignItems: "center"
 },
-
 
 })

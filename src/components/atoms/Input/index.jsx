@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from 'react-n
 import React, { useState }  from 'react'
 import { colors, fonts } from '../../../utils'
 
-const Input = ({ label, value, onChangeText, secureTextEntry, disable, placeholder }) => {
+const Input = ({ label, value, onChangeText, secureTextEntry, disable, placeholder, autoCapitalize }) => {
     const [border, setBorder] = useState(colors.border)
     const onFocusForm = () => {
         setBorder(colors.secondary)
@@ -25,6 +25,7 @@ const Input = ({ label, value, onChangeText, secureTextEntry, disable, placehold
         selectTextOnFocus={!disable}
         secureTextEntry={secureTextEntry}
         placeholder= {placeholder}
+        autoCapitalize= {autoCapitalize}
         />
     </KeyboardAvoidingView>
 </View>

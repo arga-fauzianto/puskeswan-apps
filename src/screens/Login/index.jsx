@@ -35,7 +35,7 @@ const Login = ({ navigation }) => {
                 Login
             </Text>
         </TouchableOpacity>
-        <Link title="Create New Account" size={16} align="center" onPress={() => navigation.navigate("")}/>
+        <Link title="Create New Account" size={16} align="center" onPress={() => navigation.navigate("Register")}/>
       </View>
       </View>
     </SafeAreaView>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: colors.secondary,
     borderRadius: 8,
-    width: 280,
+    width: 350,
     padding: 12,
     justifyContent: "center",
     alignItems: "center",
