@@ -44,19 +44,6 @@ const BottomNavigator = ({ state, descriptors, navigation }) => {
            onLongPress={onLongPress} 
            onPress={onPress}
            />
-          // <TouchableOpacity
-          //   accessibilityRole="button"
-          //   accessibilityState={isFocused ? { selected: true } : {}}
-          //   accessibilityLabel={options.tabBarAccessibilityLabel}
-          //   testID={options.tabBarTestID}
-          //   onPress={onPress}
-          //   onLongPress={onLongPress}
-          //   style={{ flex: 1 }}
-          // >
-          //   <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
-          //     {label}
-          //   </Text>
-          // </TouchableOpacity>
         );
       })}
     </View>

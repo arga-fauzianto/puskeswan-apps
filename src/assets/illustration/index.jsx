@@ -7,6 +7,10 @@ import IconBackDark from './ic-back-dark.svg'
 import IconBacklight from './ic-back-light.svg'
 import IconAddPhoto from './ic-add-photo.svg'
 
+// Dummy
+
+import DummyUser from './people.png'
+
 // icon bottom tab
 
 import IconHome from './ic-home.svg'
@@ -16,8 +20,15 @@ import IconMessageActive from './ic-message-active.svg'
 import IconProfile from './ic-profile.svg'
 import IconProfileActive from './ic-profile-active.svg'
 
+// Category Dokter
+
+import ILCatPets from './ic_pets.svg'
+import ILCatTernak from './ic_ternak.svg'
+import ILCatObat from './ic_vaccine.svg'
+import ILArticle from './ic_article.svg'
+
 export {
-IconAddPhoto,
+    IconAddPhoto,
     IconBackDark,
     IconBacklight,
     IcBack,
@@ -30,5 +41,10 @@ IconAddPhoto,
     IconMessage,
     IconMessageActive,
     IconProfile,
-    IconProfileActive
+    IconProfileActive,
+    DummyUser,
+    ILCatPets,
+    ILCatTernak,
+    ILCatObat,
+    ILArticle
 }
