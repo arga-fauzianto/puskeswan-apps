@@ -8,10 +8,16 @@ import Home from './Home'
 
 import Uploud from './Uploud'
 
+import Messages from './Messages'
+
+import Profile from './Profile'
+
 export {
     GetStarted,
     Login,
     Register,
     Home,
-    Uploud
+    Uploud,
+    Messages,
+    Profile
 }

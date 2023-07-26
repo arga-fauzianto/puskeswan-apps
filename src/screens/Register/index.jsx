@@ -33,7 +33,7 @@ const Register = ({ navigation }) => {
         </KeyboardAvoidingView>
         <Gap height={24} />
       <View style = {styles.wrapBtn}>
-        <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={() => navigation.navigate("Uploud")}>
             <Text style = {styles.textBtn}>
                Continue
             </Text>

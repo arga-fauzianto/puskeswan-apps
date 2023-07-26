@@ -23,14 +23,24 @@ export const colors = {
         primary: mainColors.dark1,
         secondary: mainColors.dark2,
         menuInActive: mainColors.dark2,
-        menuActive: mainColors.yellow1,
+        menuActive: mainColors.dark1,
     },
 
-    disable: {
-        background: mainColors.grey2,
-        text: mainColors.grey4
+    button: {
+        primary: {
+            background: mainColors.yellow2,
+            text: 'white'
+        },
+        secondary: {
+            background: mainColors.light,
+            text: mainColors.dark1
+        },
+        disable: {
+          background: mainColors.dark2,
+          text: mainColors.dark2
+        }
       },
 
-      border: mainColors.dark1,
-
+      border: mainColors.dark2,
+      loadingBackground: mainColors.dark1,
 };
