@@ -10,6 +10,7 @@ import IconAddPhoto from './ic-add-photo.svg'
 // Dummy
 
 import DummyUser from './people.png'
+import DummyCard from './card-image.png'
 
 // icon bottom tab
 
@@ -20,12 +21,19 @@ import IconMessageActive from './ic-message-active.svg'
 import IconProfile from './ic-profile.svg'
 import IconProfileActive from './ic-profile-active.svg'
 
+
+// icon
+
+import IconFaq from './ic-faqs.svg'
+
+
 // Category Dokter
 
 import ILCatPets from './ic_pets.svg'
 import ILCatTernak from './ic_ternak.svg'
 import ILCatObat from './ic_vaccine.svg'
 import ILArticle from './ic_article.svg'
+
 
 export {
     IconAddPhoto,
@@ -43,8 +51,10 @@ export {
     IconProfile,
     IconProfileActive,
     DummyUser,
+    DummyCard,
     ILCatPets,
     ILCatTernak,
     ILCatObat,
-    ILArticle
+    ILArticle,
+    IconFaq
 }

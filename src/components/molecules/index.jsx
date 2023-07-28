@@ -2,5 +2,7 @@ import Header from './Header'
 import BottomNavigator from './BottomNavigator'
 import HomeProfile from './HomeProfile'
 import DoctorCategory from './DoctorCategory'
+import NewsItem from './NewsItem'
+import FaqItem from './FaqItem'
 
-export {Header, BottomNavigator, HomeProfile, DoctorCategory}
+export {FaqItem, Header, BottomNavigator, HomeProfile, DoctorCategory, NewsItem}
