@@ -1,27 +1,42 @@
-import { StyleSheet, View, Text, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import { colors, fonts } from '../../utils'
-import { ILLNullPhoto, IcBack, IconAddPhoto } from '../../assets'
+import { ILLNullPhoto, IcBack, IconAddPhoto, IconRemovePhoto } from '../../assets'
 import { Header } from '../../components/molecules'
 import Button from '../../components/atoms/Button'
 import { Gap, Link } from '../../components/atoms'
+import { launchImageLibrary } from 'react-native-image-picker'
 
 
 const Uploud = () => {
+
+  const [hasPhoto, setHasPhoto] = useState(false);
+  const [photo, setPhoto] = useState(ILLNullPhoto)
+
+  const getImage = () => {
+    launchImageLibrary({quality: 0.5, maxHeight: 200, maxWidth: 200, includeBase64:true}, Response => {
+      console.log('response', Response);
+      const source = {uri: Response.assets[0] .uri}
+      setPhoto(source);
+      setHasPhoto(true)
+    })
+  }
+
   return (
     <View style={styles.page}>
       <Header title="Uploud Photo"/>
       <View style = {styles.content}>
         <View style = {styles.profile}>
-          <View style={styles.avatarWrapper}>
-            <Image source={ILLNullPhoto} style = {styles.avatar}/>
-            <IconAddPhoto style = {styles.addPhoto}/>
-          </View>
+          <TouchableOpacity style={styles.avatarWrapper} onPress={getImage}>
+            <Image source={photo} style = {styles.avatar}/>
+            {hasPhoto && <IconRemovePhoto style = {styles.addPhoto}/>}
+            {!hasPhoto &&   <IconAddPhoto style = {styles.addPhoto}/>}
+          </TouchableOpacity>
             <Text style = {styles.headerText}>Fatur Swastya</Text>
             <Text style = {styles.jobsText}>Product Designer</Text>
         </View>
       <View>
-        <Button title="Uploud and Continue" />
+        <Button title="Uploud and Continue" disable/>
         <Gap height={30}/>
         <Link title="Skip for this" align="center" size={16}/>
       </View>

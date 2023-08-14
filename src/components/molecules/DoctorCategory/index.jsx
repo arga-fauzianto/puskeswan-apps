@@ -1,18 +1,37 @@
-import { StyleSheet, Text, View } from 'react-native'
+import {TouchableOpacity, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { ILCatPets } from '../../../assets'
+import { ILArticle, ILCatObat, ILCatPets, ILCatTernak } from '../../../assets'
 import { colors, fonts } from '../../../utils'
 import { Gap } from '../../atoms'
 
-const DoctorCategory = ({ title }) => {
+const DoctorCategory = ({ category, onPress }) => {
+  const Icon = () => {
+    if(category === "Pets") {
+      return <ILCatPets />
+    }
+
+    if(category === "Hewan ternak") {
+      return <ILCatTernak />
+    }
+
+    if(category === "Obat") {
+      return <ILCatObat />
+    }
+
+    if(category === "Article") {
+      return <ILArticle />
+    }
+
+    return <ILCatPets />
+  }
   return (
-    <View style ={styles.container}>
+    <TouchableOpacity style ={styles.container} onPress={onPress}>
       <View style = {styles.cardPets}>
-        <ILCatPets />
+        <Icon /> 
       </View>
       <Gap height={6}/>
-      <Text style = {styles.text}>{title}</Text>
-    </View>
+      <Text style = {styles.text}>{category}</Text>
+    </TouchableOpacity>
   )
 }
 

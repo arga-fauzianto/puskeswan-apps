@@ -1,0 +1,23 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "category": "Pets"
+        },
+
+        {
+            "id": 2,
+            "category": "Hewan ternak"
+        },
+
+        {
+            "id": 3,
+            "category": "Obat"
+        },
+
+        {
+            "id": 1,
+            "category": "Article"
+        },
+    ]
+}

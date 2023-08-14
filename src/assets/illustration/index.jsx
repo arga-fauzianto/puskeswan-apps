@@ -6,11 +6,14 @@ import ILLNullPhoto from './ILLNullPhoto.png'
 import IconBackDark from './ic-back-dark.svg'
 import IconBacklight from './ic-back-light.svg'
 import IconAddPhoto from './ic-add-photo.svg'
+import IconRemovePhoto from './ic-remove-photo.svg'
+import IcNext from './ic-next.svg'
 
 // Dummy
 
 import DummyUser from './people.png'
 import DummyCard from './card-image.png'
+import DummyDoctor from './doctor1.png'
 
 // icon bottom tab
 
@@ -24,7 +27,9 @@ import IconProfileActive from './ic-profile-active.svg'
 
 // icon
 
-import IconFaq from './ic-faqs.svg'
+import IconFaq from './ic-faqs.svg';
+import IconSendDark from './ic-send-dark.svg';
+import IconSendLight from './ic-send-light.svg';
 
 
 // Category Dokter
@@ -56,5 +61,11 @@ export {
     ILCatTernak,
     ILCatObat,
     ILArticle,
-    IconFaq
+    IconFaq,
+    DummyDoctor,
+    IcNext,
+    IconSendDark,
+    IconSendLight,
+    IconRemovePhoto
+
 }

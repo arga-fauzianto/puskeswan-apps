@@ -1,12 +1,50 @@
-import { TouchableOpacity, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { colors, fonts } from '../../utils'
-import { ILRegister, IcBack, IcLogin } from '../../assets'
-import { Gap, Input, Link } from '../../components/atoms'
-import { ScrollView } from 'react-native-gesture-handler'
-import { Image } from 'react-native-svg'
+import { TouchableOpacity, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native'
+import React, {useState} from 'react'
+import { colors, fonts, showerror, useForm } from '../../utils'
+import { ILRegister } from '../../assets'
+import { Gap, Input } from '../../components/atoms'
+import auth from '@react-native-firebase/auth'
+import { Loading } from '../../components/molecules'
+import { firebase } from '@react-native-firebase/database';
+
+
 
 const Register = ({ navigation }) => {
+ 
+  const [form, setForm] = useForm({
+    userName: '',
+    profession: '',
+    email: '',
+    password: '',
+  });
+
+  const [loading, setLoading] = useState(false)
+
+const onContinue = () => {
+  setLoading(true)
+    auth().createUserWithEmailAndPassword(form.email, form.password)
+    .then((userCredentials) => {
+      setForm('reset')
+      const data = {
+        userName: form.userName,
+        profession: form.profession,
+        email: form.email,
+      };
+
+      firebase.database()
+      .ref('users/' + userCredentials.user.uid + '/')
+      .set(data)
+
+      setLoading(false)
+      const user = userCredentials.user;
+      console.log('User account created & signed in!', user);
+    })
+    .catch(() => {
+      setLoading(false)
+
+      console.log('That email address is invalid!');
+    })
+}
 
   return (
     <SafeAreaView style = {styles.container}>
@@ -25,21 +63,46 @@ const Register = ({ navigation }) => {
         </View>
         <Gap height={24} />
         <KeyboardAvoidingView>
-           <Input label="Username" placeholder="Input Your Username" autoCapitalize="none" />
-           <Gap height= {10} /> 
-          <Input label="Email Address" placeholder= "Input Your Email Address"/> 
+           <Input 
+           label="Username" 
+           placeholder="Input Your Username" 
+           autoCapitalize="none" 
+           value={form.userName}
+           onChangeText={value => setForm('userName', value)}
+           />
+           <Gap height= {10} />
+           <Input 
+           label="Profession" 
+           placeholder="Input Your Profession" 
+           autoCapitalize="none" 
+           value={form.profession}
+           onChangeText={value => setForm('profession', value)}
+           />
+           <Gap height={10} /> 
+          <Input 
+           label="Email Address" 
+           placeholder= "Input Your Email Address"
+           value={form.email}
+           onChangeText={value => setForm('email', value)}
+           /> 
           <Gap height={10} />
-          <Input label="Password" placeholder= "Input Your Password"/>
+          <Input 
+          label="Password" 
+          placeholder= "Input Your Password"
+          value={form.password}
+          onChangeText={value => setForm('password', value)}
+          />
         </KeyboardAvoidingView>
         <Gap height={24} />
       <View style = {styles.wrapBtn}>
-        <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={() => navigation.navigate("Uploud")}>
+        <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={onContinue}>
             <Text style = {styles.textBtn}>
                Continue
             </Text>
         </TouchableOpacity>
       </View>
       </View>
+      {loading && <Loading />}
       </ScrollView>
     </SafeAreaView>
   )
@@ -101,7 +164,7 @@ textBtn: {
 
 wrapBtn: {
   justifyContent: 'space-between',
-  alignItems: "center"
+  alignItems: "center",
 },
 
 })

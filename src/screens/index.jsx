@@ -12,12 +12,17 @@ import Messages from './Messages'
 
 import Profile from './Profile'
 
+import ChooseDoctor from './ChooseDoctor'
+import Chatting from './Chatting'
+
 export {
-    GetStarted,
-    Login,
-    Register,
     Home,
+    Login,
     Uploud,
+    Profile,
+    Register,
+    Chatting,
     Messages,
-    Profile
+    GetStarted,
+    ChooseDoctor,
 }

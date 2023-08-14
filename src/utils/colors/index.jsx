@@ -4,8 +4,11 @@ const mainColors = {
     dark1: "#212529",
     dark2: "#6C757D",
     light: "#F8F9FA",
+    grey: "#EDEEF0",
+    dark3: "#E9E9E9",
     red1: "#DC3545",
-    green1: "#198754"
+    green1: "#198754",
+    black2: 'rgba(0, 0, 0, 0.5)'
 
 }
 
@@ -36,11 +39,11 @@ export const colors = {
             text: mainColors.dark1
         },
         disable: {
-          background: mainColors.dark2,
-          text: mainColors.dark2
+          background: mainColors.grey,
+          text: mainColors.dark3
         }
       },
 
       border: mainColors.dark2,
-      loadingBackground: mainColors.dark1,
+      loadingBackground: mainColors.black2,
 };

@@ -5,8 +5,9 @@ import { DoctorCategory, FaqItem, NewsItem } from '../../components/molecules'
 import { colors, fonts } from '../../utils'
 import { HomeProfile } from '../../components/molecules'
 import { Gap } from '../../components/atoms'
+import { JSONCategoryDoctor } from '../../assets'
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <View style = {styles.page}>
       <ScrollView vertical showsVerticalScrollIndicator={false} style={{flex: 1}}>
@@ -14,10 +15,11 @@ const Home = () => {
           <Text style ={styles.welcome}>Mau Konsultasi Peliharan kamu Dengan Siapa ?</Text>
           <Gap height={12} />
           <View style ={styles.category}>
-          <DoctorCategory title= "Pets"/>
-          <DoctorCategory title= "Hewan ternak"/>
-          <DoctorCategory title= "Obat"/>
-          <DoctorCategory title= "Article"/>
+
+            {JSONCategoryDoctor.data.map(item => {
+              return <DoctorCategory key={item.id} category={item.category} onPress={() => navigation.navigate('ChooseDoctor')}/>
+            })}
+
           </View>
           <Gap height={12} />
           <View style = {styles.wrapperNews}>

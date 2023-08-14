@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "674002980351",
+    "project_id": "puskeswanapp-7fc8f",
+    "storage_bucket": "puskeswanapp-7fc8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674002980351:android:528ee1515c6606bac7ebca",
+        "android_client_info": {
+          "package_name": "com.puskeswanapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674002980351-jadioqgc0r8tl0urjg4p91kavn2q7fmt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZg0-jJOO6rzKwOZpwV3_L6_AOtjeQcno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674002980351-jadioqgc0r8tl0urjg4p91kavn2q7fmt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
