@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
 
   avatar: {
     width: 110,
-    height: 110 
+    height: 110,
+    borderRadius: 130 / 2 
   },
 
   profile: {
