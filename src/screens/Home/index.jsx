@@ -1,13 +1,19 @@
 import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { DoctorCategory, FaqItem, NewsItem } from '../../components/molecules'
-import { colors, fonts } from '../../utils'
+import { colors, fonts, getData } from '../../utils'
 import { HomeProfile } from '../../components/molecules'
 import { Gap } from '../../components/atoms'
 import { JSONCategoryDoctor } from '../../assets'
 
 const Home = ({ navigation }) => {
+
+  useEffect(() => {
+    getData('user').then(res => {
+      console.log("user dapat", res)
+    })
+  }, [])
   return (
     <View style = {styles.page}>
       <ScrollView vertical showsVerticalScrollIndicator={false} style={{flex: 1}}>

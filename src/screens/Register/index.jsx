@@ -1,13 +1,11 @@
 import { TouchableOpacity, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native'
 import React, {useState} from 'react'
-import { colors, fonts, showerror, useForm } from '../../utils'
+import { colors, fonts, getData, showerror, storeData, useForm } from '../../utils'
 import { ILRegister } from '../../assets'
 import { Gap, Input } from '../../components/atoms'
 import auth from '@react-native-firebase/auth'
 import { Loading } from '../../components/molecules'
 import { firebase } from '@react-native-firebase/database';
-
-
 
 const Register = ({ navigation }) => {
  
@@ -29,6 +27,7 @@ const onContinue = () => {
         userName: form.userName,
         profession: form.profession,
         email: form.email,
+        uid: userCredentials.user.uid
       };
 
       firebase.database()
@@ -37,11 +36,13 @@ const onContinue = () => {
 
       setLoading(false)
       const user = userCredentials.user;
+      storeData('user', data);
+      navigation.navigate('Uploud', data)
       console.log('User account created & signed in!', user);
     })
-    .catch(() => {
+    .catch((err) => {
       setLoading(false)
-
+      showerror(err.message)
       console.log('That email address is invalid!');
     })
 }

@@ -1,26 +1,60 @@
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { colors, fonts } from '../../utils'
+import { colors, fonts, storeData } from '../../utils'
 import { ILLNullPhoto, IcBack, IconAddPhoto, IconRemovePhoto } from '../../assets'
 import { Header } from '../../components/molecules'
 import Button from '../../components/atoms/Button'
 import { Gap, Link } from '../../components/atoms'
 import { launchImageLibrary } from 'react-native-image-picker'
+import { firebase } from '@react-native-firebase/database'
+import { showMessage } from 'react-native-flash-message'
 
 
-const Uploud = () => {
+const Uploud = ({ navigation, route }) => {
 
   const [hasPhoto, setHasPhoto] = useState(false);
   const [photo, setPhoto] = useState(ILLNullPhoto)
+  const [photoDB, setPhotoDB] = useState('');
+  const { userName, profession, uid } = route?.params || {};
 
   const getImage = () => {
-    launchImageLibrary({quality: 0.5, maxHeight: 200, maxWidth: 200, includeBase64:true}, Response => {
-      console.log('response', Response);
-      const source = {uri: Response.assets[0] .uri}
-      setPhoto(source);
-      setHasPhoto(true)
+    launchImageLibrary({quality: 0.5, maxHeight: 150, maxWidth: 150, includeBase64:true}, response => {
+      console.log('response', response);
+      if(response.didCancel || response.errorMessage) {
+        showMessage({
+          message: 'oops, kamu tidak memilih photo?',
+          type: 'default',
+          backgroundColor: colors.fivetery,
+          color: colors.grow,
+          style: {marginBottom: 30}
+        })
+      } else {
+        console.log('response getImage: ', response);
+        const source = {uri: response.uri}
+        setPhotoDB(`data:${response.type};base64, ${response.base64}`);
+        setPhoto(source)
+        setHasPhoto(true)
+
+        // const source = {uri: Response.assets[0].uri}
+        // setPhotoDB(`data:${Response.type};base64, ${Response.base64}`);
+        // setPhoto(source);
+        // setHasPhoto(true)
+      }
     })
   }
+
+  const UploudContinue = () => {
+    firebase.database().ref('users/' + uid + '/')
+    .update({photo: photoDB});
+
+    const data = route.params;
+    data.photo = photoDB;
+
+    storeData('user', data);
+
+    navigation.replace('MainApp')
+}
+
 
   return (
     <View style={styles.page}>
@@ -32,11 +66,15 @@ const Uploud = () => {
             {hasPhoto && <IconRemovePhoto style = {styles.addPhoto}/>}
             {!hasPhoto &&   <IconAddPhoto style = {styles.addPhoto}/>}
           </TouchableOpacity>
-            <Text style = {styles.headerText}>Fatur Swastya</Text>
-            <Text style = {styles.jobsText}>Product Designer</Text>
+            <Text style = {styles.headerText}>{userName}</Text>
+            <Text style = {styles.jobsText}>{profession}</Text>
         </View>
       <View>
-        <Button title="Uploud and Continue" disable/>
+        <Button 
+         title="Uploud and Continue" 
+         disable= {!hasPhoto}
+         onPress={UploudContinue}
+         />
         <Gap height={30}/>
         <Link title="Skip for this" align="center" size={16}/>
       </View>

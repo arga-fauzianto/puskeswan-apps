@@ -1,9 +1,28 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { ILGetStarted } from "../../assets";
-import { fonts } from "../../utils";
+import { fonts, colors } from "../../utils";
+import auth from '@react-native-firebase/auth'
+import { showMessage } from 'react-native-flash-message'
 
-const GetStarted = () => {
+const GetStarted = ({ navigation }) => {
+
+    useEffect(() => {
+        auth().onAuthStateChanged(user => {
+          if(user) {
+            console.log('user daper', user)
+            showMessage({
+              message: 'session anda berhasil login',
+              backgroundColor: colors.sixtiary,
+              color: colors.grow
+            })
+            navigation.replace('MainApp')
+          } else {
+            navigation.replace('GetStarted')
+          }
+      })
+      }, [2000])
+
     return (
         <SafeAreaView style = {styles.Container}>
             <View style = {styles.Content}>
@@ -18,7 +37,7 @@ const GetStarted = () => {
                  mereka bersama kami
                 </Text>
             </View>    
-            <TouchableOpacity style = {styles.btn} activeOpacity={0.6}>
+            <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={() => navigation.navigate('Login')}>
                 <Text style = {styles.textBtn}>
                     Get Started
                 </Text>

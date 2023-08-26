@@ -1,44 +1,102 @@
-import { TouchableOpacity, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { colors, fonts } from '../../utils'
+import {ScrollView,  TouchableOpacity, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, {useEffect, useState} from 'react'
+import { colors, fonts, storeData, useForm } from '../../utils'
 import { IcLogin } from '../../assets'
 import { Gap, Input, Link } from '../../components/atoms'
+import { firebase } from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth'
+import { showMessage } from 'react-native-flash-message'
+import { Loading } from '../../components/molecules'
 
 const Login = ({ navigation }) => {
 
+  const [form, setForm] = useForm({email: '', password: ''})
+
+  const [loading, setLoading] = useState(false);
+
+  const login = () => {
+   auth().signInWithEmailAndPassword(form.email, form.password)
+   .then(success => {
+    console.log('login', success)
+    setForm('reset')
+    setLoading(false)
+
+    firebase.database().ref(`users/${success.user.uid}/`).once('value')
+    .then(resDB => {
+      if(resDB.val()) {
+        storeData('user', resDB.val())
+
+        showMessage({
+          message: 'Kamu berhasil login',
+          type: 'defaul',
+          backgroundColor: colors.sixtiary,
+          color: colors.grow
+        })
+
+        navigation.replace('MainApp')
+      }
+      
+    })
+   })
+   .catch(err => {
+    showMessage({
+      message: err.message,
+      type: 'default',
+      backgroundColor: colors.fivetery,
+      color: colors.grow
+    })
+   })
+  }
+
+
+
   return (
+    <>
+    
     <SafeAreaView style = {styles.container}>
-      <View style = {styles.ContentMain}>
-        <View style = {styles.wrapText}>
-          <Text style = {styles.textHeader}>
-            Welcome Back, 
-          </Text>
-          <Text style = {styles.textDesc}>
-            login now to continue 
-          </Text>
-        </View>
-        <View style = {styles.wrapLogo}>
-          <IcLogin />
-        </View>
-        <Gap height={24} />
-        <KeyboardAvoidingView>
-           <Input label="Email Address" placeholder="Email address"/>
-           <Gap height= {24} /> 
-          <Input label="password" placeholder= "Input Password"/> 
-          <Gap height={10} />
-          <Link title="Forgot My Password" align="right" />
-        </KeyboardAvoidingView>
-        <Gap height={24} />
-      <View style = {styles.wrapBtn}>
-        <TouchableOpacity style = {styles.btn} activeOpacity={0.6}>
-            <Text style = {styles.textBtn}>
-                Login
+      <ScrollView>
+        <View style = {styles.ContentMain}>
+          <View style = {styles.wrapText}>
+            <Text style = {styles.textHeader}>
+              Welcome Back, 
             </Text>
-        </TouchableOpacity>
-        <Link title="Create New Account" size={16} align="center" onPress={() => navigation.navigate("Register")}/>
-      </View>
-      </View>
+            <Text style = {styles.textDesc}>
+              login now to continue 
+            </Text>
+          </View>
+          <View style = {styles.wrapLogo}>
+            <IcLogin />
+          </View>
+          <Gap height={24} />
+          <KeyboardAvoidingView>
+            <Input label="Email Address" 
+            placeholder="Email address" 
+            value={form.email} 
+            onChangeText={value => setForm('email', value)}
+            />
+            <Gap height= {24} /> 
+            <Input label="password" 
+            placeholder= "Input Password" 
+            value={form.password} 
+            onChangeText={value => setForm('password', value)}/> 
+            <Gap height={10} />
+            <Link title="Forgot My Password" align="right" />
+          </KeyboardAvoidingView>
+          <Gap height={24} />
+        <View style = {styles.wrapBtn}>
+          <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={login}>
+              <Text style = {styles.textBtn}>
+                  Login
+              </Text>
+          </TouchableOpacity>
+          <Link title="Create New Account" size={16} align="center" onPress={() => navigation.navigate('Register')}/>
+        </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
+  {loading && <Loading />}
+    
+    </>
   )
 }
 
@@ -49,7 +107,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     backgroundColor: "#FFFFFF",
-    alignContent: 'center'
+    alignContent: 'center',
+
   },
   
   ContentMain: {
