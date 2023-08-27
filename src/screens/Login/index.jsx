@@ -14,6 +14,9 @@ const Login = ({ navigation }) => {
 
   const [loading, setLoading] = useState(false);
 
+
+// pengambilan fungsi login dan ambil data dari local storage
+
   const login = () => {
    auth().signInWithEmailAndPassword(form.email, form.password)
    .then(success => {
@@ -47,8 +50,6 @@ const Login = ({ navigation }) => {
     })
    })
   }
-
-
 
   return (
     <>

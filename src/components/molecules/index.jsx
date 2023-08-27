@@ -8,12 +8,14 @@ import ListDoctor from './ListDoctor'
 import ChatItem from './ChatItem'
 import InputChat from './InputChat'
 import Loading from './Loading'
+import EditProfile from './EditProfile'
 
 export {
     FaqItem, 
     ChatItem, 
     InputChat, 
-    Header, 
+    Header,
+    EditProfile, 
     BottomNavigator, 
     HomeProfile, 
     DoctorCategory, 

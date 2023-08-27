@@ -12,7 +12,7 @@ const GetStarted = ({ navigation }) => {
           if(user) {
             console.log('user daper', user)
             showMessage({
-              message: 'session anda berhasil login',
+              message: 'session anda masih berlaku dan berhasil login',
               backgroundColor: colors.sixtiary,
               color: colors.grow
             })

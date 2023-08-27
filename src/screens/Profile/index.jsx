@@ -1,10 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { EditProfile, Header } from '../../components/molecules'
 
 const Profile = () => {
   return (
     <View>
-      <Text>Profile</Text>
+      <Header title= "Profile "/>
+      <ScrollView>
+        <EditProfile />
+        <Text>Profile</Text>
+      </ScrollView>
     </View>
   )
 }
