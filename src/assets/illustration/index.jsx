@@ -30,6 +30,7 @@ import IconProfileActive from './ic-profile-active.svg'
 import IconFaq from './ic-faqs.svg';
 import IconSendDark from './ic-send-dark.svg';
 import IconSendLight from './ic-send-light.svg';
+import IconEditProfile from './icons_edit.svg'
 
 
 // Category Dokter
@@ -66,6 +67,7 @@ export {
     IcNext,
     IconSendDark,
     IconSendLight,
-    IconRemovePhoto
+    IconRemovePhoto,
+    IconEditProfile,
 
 }
