@@ -10,6 +10,7 @@ import InputChat from './InputChat'
 import Loading from './Loading'
 import EditProfile from './EditProfile'
 import ListEditProfile from './ListEditProfile'
+import ItemProfileDoctor from './ItemProfileDoctor'
 
 export {
     FaqItem, 
@@ -19,6 +20,7 @@ export {
     EditProfile, 
     BottomNavigator,
     ListEditProfile, 
+    ItemProfileDoctor,
     HomeProfile, 
     DoctorCategory, 
     NewsItem, 

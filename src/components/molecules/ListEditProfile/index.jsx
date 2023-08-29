@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { ILArticle, ILCatObat, ILCatPets, IcNext, IconEditProfile, IconFaq, IconMessage } from '../../../assets'
 import { colors, fonts } from '../../../utils'
 
-const ListEditProfile = ({ title, icon }) => {
+const ListEditProfile = ({ title, icon, onPress }) => {
 
     const Icon = () => {
         if (icon === 'edit-profile') {
@@ -23,10 +23,10 @@ const ListEditProfile = ({ title, icon }) => {
 
   return (
     <SafeAreaView style ={styles.content}>
-     <View style= {styles.areacontent}>
-        <View style ={styles.wrapIc}>
+     <View style= {styles.areacontent} >
+        <TouchableOpacity style ={styles.wrapIc} onPress={onPress}>
             <Icon />
-        </View>
+        </TouchableOpacity>
         <Text style ={styles.textFaq}>{title}</Text>
      </View>
    </SafeAreaView>

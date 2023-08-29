@@ -3,17 +3,20 @@ import React from 'react'
 import { DummyUser } from '../../../assets'
 import { colors, fonts } from '../../../utils'
 
-const EditProfile = () => {
+const EditProfile = ({ name, desc }) => {
   return (
     <SafeAreaView>
     <View style = {styles.container}>
         <View style={styles.wrapAvatar}>
           <Image source={DummyUser} style = {styles.avatar}/>
         </View>
-      <View style = {styles.wraptext}>
-       <Text style = {styles.name}>Fatur Swastyani</Text>
-       <Text style = {styles.jobs}>faturswastyani@gmail.com</Text>
-      </View>
+        {name && (
+          <View style = {styles.wraptext}>
+            <Text style = {styles.name}>{name}</Text>
+            <Text style = {styles.jobs}>{desc}</Text>
+          </View> 
+        ) 
+        }
     </View>
     </SafeAreaView>
   )

@@ -15,6 +15,10 @@ import Profile from './Profile'
 import ChooseDoctor from './ChooseDoctor'
 import Chatting from './Chatting'
 
+import UpdatedProfile from './UpdatedProfile'
+
+import DetailDoctor from './DetailDoctor'
+
 export {
     Home,
     Login,
@@ -25,4 +29,6 @@ export {
     Messages,
     GetStarted,
     ChooseDoctor,
+    DetailDoctor,
+    UpdatedProfile,
 }

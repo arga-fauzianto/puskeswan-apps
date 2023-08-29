@@ -4,14 +4,14 @@ import { EditProfile, Header, ListEditProfile } from '../../components/molecules
 import { colors, fonts } from '../../utils'
 import { Button, Gap } from '../../components/atoms'
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header title= "Profile "/>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.contents}>
         <EditProfile />
         <View style={styles.wrapList}>
-          <ListEditProfile title="Edit Profile" icon='edit-profile'/>
+          <ListEditProfile title="Edit Profile" icon='edit-profile' onPress={() => navigation.navigate('UpdatedProfile')}/>
           <ListEditProfile title="Hewan Ternak" icon='pet'/>
           <ListEditProfile title="FaQ" icon='faq'/>
         </View>

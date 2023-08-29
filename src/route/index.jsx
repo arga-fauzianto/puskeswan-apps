@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Chatting, ChooseDoctor, GetStarted, Home, Login, Messages, Profile, Register, Uploud } from '../screens';
+import { Chatting, ChooseDoctor, DetailDoctor, GetStarted, Home, Login, Messages, Profile, Register, UpdatedProfile, Uploud } from '../screens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components/molecules';
 
@@ -20,7 +20,7 @@ const MainApp = () => {
 const Router = () => {
 
     return (
-    <Stack.Navigator initialRouteName='GetStarted'>
+    <Stack.Navigator initialRouteName='DetailDoctor'>
         <Stack.Screen name='GetStarted' component={GetStarted} options={{headerShown: false}}/>
         <Stack.Screen name='Login' component={Login} options={{headerShown: false}}/>
         <Stack.Screen name='Register' component={Register} options={{headerShown: false}}/>
@@ -28,6 +28,8 @@ const Router = () => {
         <Stack.Screen name='Uploud' component={Uploud} options={{headerShown: false}}/>
         <Stack.Screen name='ChooseDoctor' component={ChooseDoctor} options={{headerShown: false}}/>
         <Stack.Screen name='Chatting' component={Chatting} options={{headerShown: false}}/>
+        <Stack.Screen name='UpdatedProfile' component={UpdatedProfile} options={{headerShown: false}}/>
+        <Stack.Screen name='DetailDoctor' component={DetailDoctor} options={{headerShown: false}}/>
         <Stack.Screen name='MainApp' component={MainApp} options={{headerShown: false}}/>
      </Stack.Navigator>
     )
