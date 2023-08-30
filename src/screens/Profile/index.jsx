@@ -1,15 +1,33 @@
 import {TouchableOpacity, ScrollView, StyleSheet, Text, View, SafeAreaView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { EditProfile, Header, ListEditProfile } from '../../components/molecules'
-import { colors, fonts } from '../../utils'
+import { colors, fonts, getData } from '../../utils'
 import { Button, Gap } from '../../components/atoms'
+import { DummyUser } from '../../assets'
 
 const Profile = ({ navigation }) => {
+  const [profile, setprofile] = useState({
+    userName: '',
+    email: '',
+    photo: DummyUser,
+  })
+
+  useEffect(() => {
+    getData('user').then(res => {
+      const data =res;
+      data.photo = {uri: res.photo}
+      setprofile(data);
+    })
+  }, [])
+
+
   return (
     <SafeAreaView style={styles.container}>
       <Header title= "Profile "/>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.contents}>
-        <EditProfile />
+        {profile.userName.length > 0 && (
+          <EditProfile name={profile.userName} desc={profile.email} photo={profile.photo}/>
+        )}
         <View style={styles.wrapList}>
           <ListEditProfile title="Edit Profile" icon='edit-profile' onPress={() => navigation.navigate('UpdatedProfile')}/>
           <ListEditProfile title="Hewan Ternak" icon='pet'/>

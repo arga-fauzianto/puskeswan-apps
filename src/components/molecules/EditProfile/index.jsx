@@ -3,12 +3,12 @@ import React from 'react'
 import { DummyUser } from '../../../assets'
 import { colors, fonts } from '../../../utils'
 
-const EditProfile = ({ name, desc }) => {
+const EditProfile = ({ name, desc, photo }) => {
   return (
     <SafeAreaView>
     <View style = {styles.container}>
         <View style={styles.wrapAvatar}>
-          <Image source={DummyUser} style = {styles.avatar}/>
+          <Image source={photo} style = {styles.avatar}/>
         </View>
         {name && (
           <View style = {styles.wraptext}>

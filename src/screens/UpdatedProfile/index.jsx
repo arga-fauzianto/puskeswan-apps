@@ -1,14 +1,53 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
-import React from 'react'
-import { colors, fonts, useForm } from '../../utils'
+import React, { useEffect, useState } from 'react'
+import { colors, fonts, getData, useForm } from '../../utils'
 import { Header } from '../../components/molecules'
 import { DummyUser, IconRemovePhoto } from '../../assets'
 import { Button, Gap, Input } from '../../components/atoms'
+import { showMessage } from 'react-native-flash-message'
+import { firebase } from '@react-native-firebase/database';
 
 const UpdatedProfile = () => {
 
-    const [form, setForm] = useForm({email: '', password: '', profession: ''})
+    const [profile, setProfile] = useState({
+      userName: '',
+      email : ',',
+      profession: '',
+    })
 
+    const [password, setpassword] = useState('')
+
+    useEffect(() => {
+      getData('user').then(res => {
+        const data = res;
+        data.photo = {uri: res.photo};
+        setProfile(data);
+      })
+    }, [])
+
+    const getUpdate = () => {
+      const data = profile;
+      data.photo = profile.photo.uri
+     firebase.database().ref(`users/${profile.uid}/`)
+     .update(data)
+     .then(() => {
+      console.log('update: ');
+     })
+     .catch(err => {
+      showMessage({
+        message: err.message,
+        backgroundColor: colors.fivetery,
+        color: "#FFFFFF"
+      })
+     })
+    }
+
+    const changeText = (key, value) => {
+      setProfile({
+        ...profile,
+        [key]: value
+      })
+    }
 
   return (
     <View style={styles.page}>
@@ -16,28 +55,34 @@ const UpdatedProfile = () => {
     <View style = {styles.content}>
       <View style = {styles.profile}>
         <TouchableOpacity style={styles.avatarWrapper} >
-          <Image source={DummyUser} style = {styles.avatar}/>
+          <Image source={profile.photo} style = {styles.avatar}/>
           <IconRemovePhoto style = {styles.addPhoto}/>
         </TouchableOpacity>
-          <Text style = {styles.headerText}>Fatur Swastyani</Text>
-          <Text style = {styles.jobsText}>Design Grafis</Text>
+          <Text style = {styles.headerText}>{profile.userName}</Text>
+          <Text style = {styles.jobsText}>{profile.profession}</Text>
       </View>
       <View>
             <KeyboardAvoidingView>
+                <Input label="Username" 
+                 placeholder="Username" 
+                 value={profile.userName}
+                 onChangeText={(value) => changeText('userName', value)}
+                />
                 <Input label="Email Address" 
                 placeholder="Email address" 
-                value={form.email} 
+                value={profile.email} 
+                disable
                 />
                 <Gap height= {24} /> 
                 <Input label="password" 
                 placeholder= "Input Password" 
-                value={form.password} 
+                value={profile.password} 
                 />
 
                 <Gap height= {24} /> 
                 <Input label="Profession" 
                 placeholder= "Profession" 
-                value={form.profession} 
+                value={profile.profession} 
                 />
                 <Gap height={10} />
             </KeyboardAvoidingView>
@@ -45,6 +90,7 @@ const UpdatedProfile = () => {
     <View>
       <Button 
        title="Save Your Update Profile" 
+       onPress={getUpdate}
        />
        <Gap height={12} />
        <TouchableOpacity style={styles.btnCancel}>

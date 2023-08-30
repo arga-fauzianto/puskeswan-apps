@@ -20,7 +20,7 @@ const MainApp = () => {
 const Router = () => {
 
     return (
-    <Stack.Navigator initialRouteName='DetailDoctor'>
+    <Stack.Navigator initialRouteName='MainApp'>
         <Stack.Screen name='GetStarted' component={GetStarted} options={{headerShown: false}}/>
         <Stack.Screen name='Login' component={Login} options={{headerShown: false}}/>
         <Stack.Screen name='Register' component={Register} options={{headerShown: false}}/>
