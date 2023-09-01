@@ -2,10 +2,12 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, KeyboardAvoidingView }
 import React, { useEffect, useState } from 'react'
 import { colors, fonts, getData, useForm } from '../../utils'
 import { Header } from '../../components/molecules'
-import { DummyUser, IconRemovePhoto } from '../../assets'
+import { DummyUser, ILLNullPhoto, IconRemovePhoto } from '../../assets'
 import { Button, Gap, Input } from '../../components/atoms'
 import { showMessage } from 'react-native-flash-message'
 import { firebase } from '@react-native-firebase/database';
+import { launchImageLibrary } from 'react-native-image-picker'
+import auth from '@react-native-firebase/auth'
 
 const UpdatedProfile = () => {
 
@@ -13,21 +15,28 @@ const UpdatedProfile = () => {
       userName: '',
       email : ',',
       profession: '',
+      photoDB: ''
+
     })
 
     const [password, setpassword] = useState('')
+    const [hasPhoto, setHasPhoto] = useState(false);
+    const [photo, setPhoto] = useState(ILLNullPhoto)
+    const [photoDB, setPhotoDB] = useState('');
 
     useEffect(() => {
       getData('user').then(res => {
         const data = res;
-        data.photo = {uri: res.photo};
+        data.photoDB = res?.photo.lenght > 1 ? res.photo : ILLNullPhoto;
+        const tempPhoto = res?.photo?.lenght > 1 ? { uri: res.photo } : ILLNullPhoto;
+        setPhoto(tempPhoto);
         setProfile(data);
       })
     }, [])
 
     const getUpdate = () => {
       const data = profile;
-      data.photo = profile.photo.uri
+      data.photoDB = profile.photoDB
      firebase.database().ref(`users/${profile.uid}/`)
      .update(data)
      .then(() => {
@@ -42,6 +51,21 @@ const UpdatedProfile = () => {
      })
     }
 
+    const updatePassword = () => {
+      auth().onAuthStateChanged(user => {
+        if (user) {
+          user.updatePassword(password).catch(err => {
+            showMessage({
+              message: err.message,
+              type: 'default',
+              backgroundColor: colors.fivetery,
+              color: "#FFFFFF"
+            })
+          })
+        }
+      })
+    }
+
     const changeText = (key, value) => {
       setProfile({
         ...profile,
@@ -49,17 +73,50 @@ const UpdatedProfile = () => {
       })
     }
 
+    const getImage = () => {
+      launchImageLibrary({quality: 0.5, maxHeight: 150, maxWidth: 150, includeBase64:true}, response => {
+        console.log('response', response);
+        if(response.didCancel || response.errorMessage) {
+          showMessage({
+            message: 'oops, kamu tidak memilih photo?',
+            type: 'default',
+            backgroundColor: colors.fivetery,
+            color: colors.grow,
+            style: {marginBottom: 30}
+          })
+        } else {
+          console.log('response getImage: ', response);
+          const source = {uri: response.uri}
+          setPhotoDB(`data:${response.type};base64, ${response.base64}`);
+          setPhoto(source)
+          setHasPhoto(true)
+  
+        }
+      })
+    }
+  
+  //   const UploudContinue = () => {
+  //     firebase.database().ref('users/' + uid + '/')
+  //     .update({photo: photoDB});
+  
+  //     const data = route.params;
+  //     data.photo = photoDB;
+  
+  //     storeData('user', data);
+  
+  //     navigation.replace('MainApp')
+  // }
+  //   }
+
   return (
     <View style={styles.page}>
     <Header title="Update Profile"/>
     <View style = {styles.content}>
       <View style = {styles.profile}>
-        <TouchableOpacity style={styles.avatarWrapper} >
-          <Image source={profile.photo} style = {styles.avatar}/>
-          <IconRemovePhoto style = {styles.addPhoto}/>
+        <TouchableOpacity style={styles.avatarWrapper} onPress={getImage}>
+          <Image source={photo} style = {styles.avatar}/>
+          {hasPhoto && <IconRemovePhoto style = {styles.addPhoto}/>}
         </TouchableOpacity>
-          <Text style = {styles.headerText}>{profile.userName}</Text>
-          <Text style = {styles.jobsText}>{profile.profession}</Text>
       </View>
       <View>
             <KeyboardAvoidingView>
