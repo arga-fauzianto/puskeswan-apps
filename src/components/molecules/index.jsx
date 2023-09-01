@@ -11,9 +11,11 @@ import Loading from './Loading'
 import EditProfile from './EditProfile'
 import ListEditProfile from './ListEditProfile'
 import ItemProfileDoctor from './ItemProfileDoctor'
+import Profile from './Profile'
 
 export {
     FaqItem, 
+    Profile,
     ChatItem, 
     InputChat, 
     Header,

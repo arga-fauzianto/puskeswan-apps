@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { colors, fonts, getData, useForm } from '../../utils'
-import { Header } from '../../components/molecules'
+import { colors, fonts, getData, storeData, useForm } from '../../utils'
+import { EditProfile, Header, Profile } from '../../components/molecules'
 import { DummyUser, ILLNullPhoto, IconRemovePhoto } from '../../assets'
 import { Button, Gap, Input } from '../../components/atoms'
 import { showMessage } from 'react-native-flash-message'
@@ -9,7 +9,8 @@ import { firebase } from '@react-native-firebase/database';
 import { launchImageLibrary } from 'react-native-image-picker'
 import auth from '@react-native-firebase/auth'
 
-const UpdatedProfile = () => {
+
+const UpdatedProfile = ({ navigation }) => {
 
     const [profile, setProfile] = useState({
       userName: '',
@@ -19,7 +20,7 @@ const UpdatedProfile = () => {
 
     })
 
-    const [password, setpassword] = useState('')
+    const [password, setPassword] = useState('')
     const [hasPhoto, setHasPhoto] = useState(false);
     const [photo, setPhoto] = useState(ILLNullPhoto)
     const [photoDB, setPhotoDB] = useState('');
@@ -27,8 +28,8 @@ const UpdatedProfile = () => {
     useEffect(() => {
       getData('user').then(res => {
         const data = res;
-        data.photoDB = res?.photo.lenght > 1 ? res.photo : ILLNullPhoto;
-        const tempPhoto = res?.photo?.lenght > 1 ? { uri: res.photo } : ILLNullPhoto;
+        data.photoDB = res?.photo?.length > 1 ? res.photo : ILLNullPhoto;
+        const tempPhoto = res?.photo?.length > 1 ? { uri: res.photo } : ILLNullPhoto;
         setPhoto(tempPhoto);
         setProfile(data);
       })
@@ -36,11 +37,12 @@ const UpdatedProfile = () => {
 
     const getUpdate = () => {
       const data = profile;
-      data.photoDB = profile.photoDB
+      data.photo = profile.photoDB
      firebase.database().ref(`users/${profile.uid}/`)
      .update(data)
      .then(() => {
       console.log('update: ');
+      storeData('user', data)
      })
      .catch(err => {
       showMessage({
@@ -49,6 +51,26 @@ const UpdatedProfile = () => {
         color: "#FFFFFF"
       })
      })
+    }
+
+    const update = () => {
+      if(password.length > 0 ) {
+        if(password.length < 5) {
+          showMessage({
+            message: 'opps password kamu kurang dari 5 karakter',
+            type: 'default',
+            backgroundColor: colors.fivetery,
+            color: "#FFFFFF"
+          })
+        } else {
+          updatePassword();
+          getUpdate();
+          navigation.replace('MainApp')
+        }
+      } else {
+        getUpdate();
+        navigation.replace('MainApp')
+      }
     }
 
     const updatePassword = () => {
@@ -87,10 +109,11 @@ const UpdatedProfile = () => {
         } else {
           console.log('response getImage: ', response);
           const source = {uri: response.uri}
-          setPhotoDB(`data:${response.type};base64, ${response.base64}`);
+          setProfile({
+            ...profile,
+            photoDB: `data:${response.type};base64, ${response.base64}`
+          })
           setPhoto(source)
-          setHasPhoto(true)
-  
         }
       })
     }
@@ -111,15 +134,13 @@ const UpdatedProfile = () => {
   return (
     <View style={styles.page}>
     <Header title="Update Profile"/>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
     <View style = {styles.content}>
       <View style = {styles.profile}>
-        <TouchableOpacity style={styles.avatarWrapper} onPress={getImage}>
-          <Image source={photo} style = {styles.avatar}/>
-          {hasPhoto && <IconRemovePhoto style = {styles.addPhoto}/>}
-        </TouchableOpacity>
+       <Profile isRemove photo={photo} onPress={getImage} />
       </View>
       <View>
-            <KeyboardAvoidingView>
+              <KeyboardAvoidingView>
                 <Input label="Username" 
                  placeholder="Username" 
                  value={profile.userName}
@@ -131,9 +152,12 @@ const UpdatedProfile = () => {
                 disable
                 />
                 <Gap height= {24} /> 
+
                 <Input label="password" 
                 placeholder= "Input Password" 
-                value={profile.password} 
+                secureTextEntry 
+                value={password} 
+                onChangeText={value => setPassword(value)} 
                 />
 
                 <Gap height= {24} /> 
@@ -147,7 +171,7 @@ const UpdatedProfile = () => {
     <View>
       <Button 
        title="Save Your Update Profile" 
-       onPress={getUpdate}
+       onPress={update}
        />
        <Gap height={12} />
        <TouchableOpacity style={styles.btnCancel}>
@@ -155,6 +179,8 @@ const UpdatedProfile = () => {
        </TouchableOpacity>
     </View>
     </View>
+    </ScrollView>
+    
   </View>
   )
 }
