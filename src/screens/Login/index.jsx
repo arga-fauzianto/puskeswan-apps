@@ -7,22 +7,23 @@ import { firebase } from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth'
 import { showMessage } from 'react-native-flash-message'
 import { Loading } from '../../components/molecules'
+import {useDispatch} from 'react-redux'
 
 const Login = ({ navigation }) => {
 
   const [form, setForm] = useForm({email: '', password: ''})
 
-  const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch()
 
 // pengambilan fungsi login dan ambil data dari local storage
 
   const login = () => {
+   dispatch({type: 'SET_LOADING', value: true})
    auth().signInWithEmailAndPassword(form.email, form.password)
    .then(success => {
     console.log('login', success)
     setForm('reset')
-    setLoading(false)
+    dispatch({type: 'SET_LOADING', value: true})
 
     firebase.database().ref(`users/${success.user.uid}/`).once('value')
     .then(resDB => {
@@ -42,6 +43,7 @@ const Login = ({ navigation }) => {
     })
    })
    .catch(err => {
+    dispatch({type: 'SET_LOADING', value: false})
     showMessage({
       message: err.message,
       type: 'default',
@@ -52,8 +54,6 @@ const Login = ({ navigation }) => {
   }
 
   return (
-    <>
-    
     <SafeAreaView style = {styles.container}>
       <ScrollView>
         <View style = {styles.ContentMain}>
@@ -95,9 +95,6 @@ const Login = ({ navigation }) => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  {loading && <Loading />}
-    
-    </>
   )
 }
 

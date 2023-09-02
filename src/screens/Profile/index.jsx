@@ -4,6 +4,8 @@ import { EditProfile, Header, ListEditProfile } from '../../components/molecules
 import { colors, fonts, getData } from '../../utils'
 import { Button, Gap } from '../../components/atoms'
 import { DummyUser } from '../../assets'
+import auth from '@react-native-firebase/auth'
+import { showMessage } from 'react-native-flash-message'
 
 const Profile = ({ navigation }) => {
   const [profile, setprofile] = useState({
@@ -20,6 +22,20 @@ const Profile = ({ navigation }) => {
     })
   }, [])
 
+  const getSignOut = () => {
+    auth().signOut().then(res => {
+      console.log('logout success: ', res)
+      navigation.replace('Login')
+    })
+    .catch(err => {
+      showMessage({
+        message: err.message,
+        type: 'default',
+        backgroundColor: colors.fivetery,
+        color: "#FFFFFF"
+      })
+    })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,7 +50,7 @@ const Profile = ({ navigation }) => {
           <ListEditProfile title="FaQ" icon='faq'/>
         </View>
       </ScrollView>
-      <TouchableOpacity activeOpacity={0.6} style={styles.btnOut}>
+      <TouchableOpacity activeOpacity={0.6} style={styles.btnOut} onPress={getSignOut}>
         <Text style={styles.textOut}>Keluar</Text>
       </TouchableOpacity>
     </SafeAreaView>

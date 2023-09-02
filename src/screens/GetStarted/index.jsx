@@ -8,20 +8,25 @@ import { showMessage } from 'react-native-flash-message'
 const GetStarted = ({ navigation }) => {
 
     useEffect(() => {
+        const unsubscribe = 
         auth().onAuthStateChanged(user => {
-          if(user) {
-            console.log('user daper', user)
-            showMessage({
-              message: 'session anda masih berlaku dan berhasil login',
-              backgroundColor: colors.sixtiary,
-              color: colors.grow
-            })
-            navigation.replace('MainApp')
-          } else {
-            navigation.replace('GetStarted')
-          }
+            setTimeout(() => {
+                if(user) {
+                  console.log('user daper', user)
+                  showMessage({
+                    message: 'session anda masih berlaku dan berhasil login',
+                    backgroundColor: colors.sixtiary,
+                    color: colors.grow
+                  })
+                  navigation.replace('MainApp')
+                } else {
+                  navigation.replace('GetStarted')
+                }
+            }, 2000)
       })
-      }, [2000])
+
+      return () => unsubscribe();
+      }, [navigation])
 
     return (
         <SafeAreaView style = {styles.Container}>

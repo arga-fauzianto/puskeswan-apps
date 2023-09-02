@@ -5,10 +5,13 @@ import 'react-native-gesture-handler';
 import Router from './route';
 import { StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
+import { Provider, useSelector } from 'react-redux';
+import store from './redux/store';
 
 
-const App = () => {
-
+const MainApp = () => {
+  const stateGlobal = useSelector(state => state)
+  console.log('global state : ', stateGlobal)
   return (
     <>
     <NavigationContainer>
@@ -19,7 +22,16 @@ const App = () => {
 
     
   )
+}
 
+
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <MainApp />
+    </Provider>
+  )
 
 }
 
