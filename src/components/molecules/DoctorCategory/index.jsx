@@ -6,19 +6,19 @@ import { Gap } from '../../atoms'
 
 const DoctorCategory = ({ category, onPress }) => {
   const Icon = () => {
-    if(category === "Pets") {
+    if(category === "pets") {
       return <ILCatPets />
     }
 
-    if(category === "Hewan ternak") {
+    if(category === "hewan ternak") {
       return <ILCatTernak />
     }
 
-    if(category === "Obat") {
+    if(category === "obat") {
       return <ILCatObat />
     }
 
-    if(category === "Article") {
+    if(category === "article") {
       return <ILArticle />
     }
 

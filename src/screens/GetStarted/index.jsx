@@ -8,25 +8,27 @@ import { showMessage } from 'react-native-flash-message'
 const GetStarted = ({ navigation }) => {
 
     useEffect(() => {
-        const unsubscribe = 
-        auth().onAuthStateChanged(user => {
-            setTimeout(() => {
-                if(user) {
-                  console.log('user daper', user)
-                  showMessage({
-                    message: 'session anda masih berlaku dan berhasil login',
-                    backgroundColor: colors.sixtiary,
-                    color: colors.grow
-                  })
-                  navigation.replace('MainApp')
-                } else {
-                  navigation.replace('GetStarted')
-                }
-            }, 2000)
-      })
+        getSession();
+    }, [navigation])
 
-      return () => unsubscribe();
-      }, [navigation])
+    const getSession = () => {
+        const unsubscribe = auth().onAuthStateChanged(user => {
+            setTimeout(() => {
+              if (user) {
+                navigation.replace('MainApp');
+              } else {
+                navigation.replace('GetStarted');
+                showMessage({
+                    message: 'GAGAL LOGIN',
+                    backgroundColor: colors.fivetery,
+                    color: "#FFFFFF"
+                })
+              }
+            }, 3000);
+          }); 
+
+          return () => unsubscribe();
+    }
 
     return (
         <SafeAreaView style = {styles.Container}>
@@ -42,11 +44,11 @@ const GetStarted = ({ navigation }) => {
                  mereka bersama kami
                 </Text>
             </View>    
-            <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={() => navigation.navigate('Login')}>
+            {/* <TouchableOpacity style = {styles.btn} activeOpacity={0.6} onPress={getSession}>
                 <Text style = {styles.textBtn}>
                     Get Started
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </SafeAreaView>
     )
 }

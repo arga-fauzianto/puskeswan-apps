@@ -1,19 +1,46 @@
 import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { DoctorCategory, FaqItem, NewsItem } from '../../components/molecules'
-import { colors, fonts, getData } from '../../utils'
+import { colors, fonts, getData, showerror } from '../../utils'
 import { HomeProfile } from '../../components/molecules'
 import { Gap } from '../../components/atoms'
 import { JSONCategoryDoctor } from '../../assets'
+import { firebase } from '@react-native-firebase/database';
+import { showMessage } from 'react-native-flash-message'
 
 const Home = ({ navigation }) => {
+
+  const [categoryDoctor, setCategoryDoctor] = useState([])
 
   useEffect(() => {
     getData('user').then(res => {
       console.log("user dapat", res)
     })
+    getCategoryDoctor()
   }, [])
+
+const getCategoryDoctor = () => {
+  firebase.database()
+    .ref('category_doctor/')
+    .once('value')
+    .then(res => {
+      console.log('data: ', res.val())
+      if(res.val()){
+        const data = res.val()
+        const filterData = data.filter(el => el !== null);
+        setCategoryDoctor(filterData)
+      }
+  })
+  .catch(err => {
+   showMessage({
+    message: err.message,
+    backgroundColor: colors.fivetery,
+    color: "#FFFFFF"
+   })
+  })
+}
+
   return (
     <View style = {styles.page}>
       <ScrollView vertical showsVerticalScrollIndicator={false} style={{flex: 1}}>
@@ -22,8 +49,11 @@ const Home = ({ navigation }) => {
           <Gap height={12} />
           <View style ={styles.category}>
 
-            {JSONCategoryDoctor.data.map(item => {
-              return <DoctorCategory key={item.id} category={item.category} onPress={() => navigation.navigate('ChooseDoctor')}/>
+            {categoryDoctor.map(item => {
+              return <DoctorCategory 
+              key={item.id} 
+              category={item.category} 
+              onPress={() => navigation.navigate('ChooseDoctor')}/>
             })}
 
           </View>
