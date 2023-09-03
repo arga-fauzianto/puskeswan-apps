@@ -53,7 +53,7 @@ const getCategoryDoctor = () => {
               return <DoctorCategory 
               key={item.id} 
               category={item.category} 
-              onPress={() => navigation.navigate('ChooseDoctor')}/>
+              onPress={() => navigation.navigate('ChooseDoctor', item)}/>
             })}
 
           </View>

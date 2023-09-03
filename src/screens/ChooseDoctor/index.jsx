@@ -4,11 +4,15 @@ import { Header, ListDoctor } from '../../components/molecules'
 import { DummyDoctor } from '../../assets'
 import { colors } from '../../utils'
 
-const ChooseDoctor = ({ navigation }) => {
+const ChooseDoctor = ({ navigation, route }) => {
+  const itemCategory = route.params
   return (
   <SafeAreaView style={styles.container}>
     <View>
-        <Header title="Pilih Dokter Hewan ternak" onPress={() => navigation.goBack()}/>
+        <Header 
+        title={`pilih ${itemCategory.category}`}
+        onPress={() => navigation.goBack()}
+        />
     </View>
     <View style={styles.content}>
         <ListDoctor 

@@ -20,7 +20,11 @@ const Chatting = ({ navigation }) => {
         <ChatItem isMe />
         <ChatItem />
        </View>  
-      <InputChat />
+      <InputChat 
+       value="2"
+      //  onChangeText={() => alert('Hallo')}
+      //  onButtonPress={() => alert('bissaa gan')}
+      />
     </View>
   )
 }

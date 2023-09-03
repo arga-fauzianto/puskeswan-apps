@@ -4,16 +4,17 @@ import { colors, fonts } from '../../../utils'
 import Button from '../../atoms/Button'
 import { Gap } from '../../atoms'
 
-const InputChat = () => {
+const InputChat = ({ value, onChangeText, onButtonPress }) => {
   return (
     <View style = {styles.page}>
       <TextInput 
        style={styles.input} 
-       placeholder='tulis pesan untuk fatur'
-       inputMode='text'
+       placeholder='tulis pesan'
        multiline
+       value={value}
+       onChangeText={onChangeText}
       />
-      <Button type='btn-icon-send' disable/>
+      <Button type='btn-icon-send' disable={value.length < 1} onPress={onButtonPress}/>
     </View>
   )
 }
